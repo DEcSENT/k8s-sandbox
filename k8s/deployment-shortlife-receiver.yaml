@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shortlife-receiver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shortlife-receiver
+  template:
+    metadata:
+      labels:
+        app: shortlife-receiver
+    spec:
+      containers:
+        - name: shortlife-receiver
+          image: decsent/shortlife-receiver:1.0
+          ports:
+            - containerPort: 8080
