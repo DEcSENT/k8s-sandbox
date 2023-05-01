@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shortlife-sender-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shortlife-sender-app
+  template:
+    metadata:
+      labels:
+        app: shortlife-sender-app
+    spec:
+      containers:
+        - name: shortlife-sender
+          image: decsent/shortlife-sender:1.2
+          args: ["--ra=go-graphite-service", "--n=42", "--rp=2003"]
+          resources:
+            requests:
+              cpu: "100m"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081

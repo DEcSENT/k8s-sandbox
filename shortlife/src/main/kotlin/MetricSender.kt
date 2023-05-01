@@ -7,7 +7,7 @@ class MetricSender(
 ) {
 
     fun sendSuccess() {
-        val msg = "dv.success 1 " + System.currentTimeMillis()
+        val msg = getGraphiteMsg("dv.success 1")
         println(msg)
         Socket(serverAddress, serverPort).use {
             val dos = DataOutputStream(it.getOutputStream())
@@ -16,11 +16,22 @@ class MetricSender(
     }
 
     fun sendDeath(caclCount: Long) {
-        val msg = "dv.fail ${caclCount} " + System.currentTimeMillis()
+        val msg = getGraphiteMsg("dv.fail ${caclCount}")
         println(msg)
         Socket(serverAddress, serverPort).use {
             val dos = DataOutputStream(it.getOutputStream())
             dos.writeBytes(msg)
         }
+    }
+
+    /**
+     * Creates message in Graphite format: metric_path value timestamp\n
+     */
+    private fun getGraphiteMsg(msg: String): String {
+        return msg + " " + getCurrentTimeInSeconds() + "\n"
+    }
+
+    private fun getCurrentTimeInSeconds(): Long {
+        return System.currentTimeMillis() / 1000
     }
 }

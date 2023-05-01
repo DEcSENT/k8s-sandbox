@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-graphite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-graphite
+  template:
+    metadata:
+      labels:
+        app: go-graphite
+    spec:
+      containers:
+        - name: go-graphite
+          image: gographite/go-graphite
+          ports:
+            - containerPort: 80
+            - containerPort: 2003
+            - containerPort: 2004
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "512Mi"

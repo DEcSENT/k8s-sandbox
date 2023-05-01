@@ -13,15 +13,22 @@ fun main(args: Array<String>) {
         ?.toDouble()
         ?: 0.000000001
 
-    // Receiver Address
+    // Receiver address
     val receiverAddress = args.find { it.contains("--ra") }
         ?.substringAfter("=")
         ?: "localhost"
 
+    // Receiver port
+    val receiverPort = args.find { it.contains("--rp") }
+        ?.substringAfter("=")
+        ?.toInt()
+        ?: 8080
+
     println("Fib number: $n")
     println("Death probability: $dp")
-    println("ReceiverAddress: $receiverAddress")
+    println("Receiver address: $receiverAddress")
+    println("Receiver port: $receiverPort")
 
-    val metricSender = MetricSender(receiverAddress, 8080)
+    val metricSender = MetricSender(receiverAddress, receiverPort)
     ShortLife(dp, metricSender).start(n)
 }

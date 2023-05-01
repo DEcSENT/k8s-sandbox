@@ -5,7 +5,7 @@ import java.net.ServerSocket
 fun main(args: Array<String>) {
     println("Start receiver")
 
-    val serverSocket = ServerSocket(8080)
+    val serverSocket = ServerSocket(2003)
     println("Server started on port 8080")
 
     while (true) {
